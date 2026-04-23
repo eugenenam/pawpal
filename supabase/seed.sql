@@ -1,0 +1,12 @@
+-- Reference seed data for Anxious Alice demo account.
+-- Demo mode uses hardcoded local state in AuthContext, not this SQL.
+-- Run this only if you want a real Supabase demo user.
+-- First create the user via Supabase Auth dashboard (Authentication → Users → Invite)
+-- Email: demo@pawpal.app  Password: DemoPawPal2024!
+-- Then replace DEMO_USER_ID below with the generated UUID.
+
+-- insert into public.dogs (owner_id, name, breed, color, age_years, gender, weight_lbs, microchip_number)
+-- values (
+--   'DEMO_USER_ID',
+--   'Daisy', 'Beagle', 'Tri-Color (Black/Brown/White)', 3, 'female', 21, 'SDD2ADF3164D'
+-- );
