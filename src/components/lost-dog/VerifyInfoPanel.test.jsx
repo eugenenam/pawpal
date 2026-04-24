@@ -10,8 +10,6 @@ const mockDog = {
 
 const defaultProps = {
   dog: mockDog,
-  alertRadius: 2,
-  onRadiusChange: vi.fn(),
   onFormChange: vi.fn(),
   onNext: vi.fn(),
   onBack: vi.fn(),
@@ -38,11 +36,6 @@ describe('VerifyInfoPanel', () => {
     const dog = { ...mockDog, breed: 'Unknown Mutt' }
     render(<VerifyInfoPanel {...defaultProps} dog={dog} />)
     expect(screen.getByDisplayValue('Beagle')).toBeInTheDocument()
-  })
-
-  it('shows the current alert radius', () => {
-    render(<VerifyInfoPanel {...defaultProps} />)
-    expect(screen.getByText('2 miles selected')).toBeInTheDocument()
   })
 
   it('calls onNext with form data when Review is clicked', async () => {

@@ -3,13 +3,17 @@ import { useAuth } from '../context/AuthContext'
 import TopNav from '../components/layout/TopNav'
 import MapView from '../components/map/MapView'
 import LostDogFlow from '../components/lost-dog/LostDogFlow'
+import SlidingPanel from '../components/panel/SlidingPanel'
+import ConfirmationPanel from '../components/lost-dog/ConfirmationPanel'
+import { resolveAlert } from '../services/alerts'
 
 export default function MainApp() {
-  const { loading } = useAuth()
+  const { loading, isDemoMode } = useAuth()
   const [activePanel, setActivePanel] = useState(null)
   const [mapPin, setMapPin] = useState(null)
   const [alertRadius, setAlertRadius] = useState(2)
   const [showRings, setShowRings] = useState(false)
+  const [sentAlert, setSentAlert] = useState(null)
 
   const handlePinChange = useCallback((pin) => setMapPin(pin), [])
   const handleRadiusChange = useCallback((r) => setAlertRadius(r), [])
@@ -19,11 +23,35 @@ export default function MainApp() {
     setActivePanel('lostDog')
   }
 
+  // Called by LostDogFlow after the alert is saved — closes the flow and
+  // opens the persistent confirmation panel owned by MainApp
+  function handleAlertCreated(alert) {
+    setActivePanel(null)
+    setSentAlert(alert)
+  }
+
+  async function handleResolveAlert() {
+    if (sentAlert?.id) {
+      await resolveAlert(sentAlert.id, isDemoMode)
+    }
+    setSentAlert(null)
+    setMapPin(null)
+    setShowRings(false)
+  }
+
+  function handleDismissConfirmation() {
+    setSentAlert(null)
+    setMapPin(null)
+    setShowRings(false)
+  }
+
   if (loading) return (
     <div className="flex items-center justify-center h-screen bg-green-50">
       <div className="text-green-700 font-medium">Loading...</div>
     </div>
   )
+
+  const showFloatingButton = activePanel !== 'lostDog' && !sentAlert
 
   return (
     <div className="h-screen flex flex-col overflow-hidden">
@@ -36,6 +64,7 @@ export default function MainApp() {
           isPinMode={activePanel === 'lostDog'}
           showRings={showRings}
         />
+
         <LostDogFlow
           open={activePanel === 'lostDog'}
           onClose={() => { setActivePanel(null); setMapPin(null) }}
@@ -44,8 +73,22 @@ export default function MainApp() {
           alertRadius={alertRadius}
           onRadiusChange={handleRadiusChange}
           onShowRings={() => setShowRings(true)}
+          onAlertCreated={handleAlertCreated}
         />
-        {activePanel !== 'lostDog' && (
+
+        {/* Persistent confirmation panel — lives outside LostDogFlow so it
+            cannot be accidentally dismissed by the flow's own state changes */}
+        <SlidingPanel open={!!sentAlert} onClose={handleDismissConfirmation} showClose={false}>
+          <div className="p-5 pt-10">
+            <ConfirmationPanel
+              alert={sentAlert}
+              onResolve={handleResolveAlert}
+              onDismiss={handleDismissConfirmation}
+            />
+          </div>
+        </SlidingPanel>
+
+        {showFloatingButton && (
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
             <button
               onClick={handleLostDogClick}

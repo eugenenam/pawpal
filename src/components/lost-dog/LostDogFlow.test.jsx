@@ -14,10 +14,11 @@ vi.mock('../../context/AuthContext', () => ({
 vi.mock('../panel/SlidingPanel', () => ({
   default: ({ open, children }) => open ? <div data-testid="panel">{children}</div> : null,
 }))
-vi.mock('./DropPinPanel', () => ({ default: ({ onNext }) => <button onClick={() => onNext()}>Next from Drop</button> }))
+vi.mock('./DropPinPanel', () => ({ default: ({ onNext }) => <button onClick={onNext}>Next from Drop</button> }))
 vi.mock('./VerifyInfoPanel', () => ({ default: ({ onNext }) => <button onClick={() => onNext({})}>Next from Verify</button> }))
 vi.mock('./ReviewPanel', () => ({ default: ({ onNext }) => <button onClick={onNext}>Send Alert</button> }))
 vi.mock('./ConfirmationPanel', () => ({ default: ({ alert }) => <div>Confirmed: {alert?.dogName}</div> }))
+// Note: ConfirmationPanel is no longer rendered by LostDogFlow — it lives in MainApp.
 vi.mock('../../services/alerts', () => ({
   createAlert: vi.fn().mockResolvedValue({ id: 'alert-1', notified_count: 47, shelters_notified: 3 }),
   resolveAlert: vi.fn().mockResolvedValue({ id: 'alert-1' }),
@@ -32,6 +33,7 @@ describe('LostDogFlow', () => {
     alertRadius: 2,
     onRadiusChange: vi.fn(),
     onShowRings: vi.fn(),
+    onAlertCreated: vi.fn(),
   }
 
   it('renders drop pin panel at step 1', () => {

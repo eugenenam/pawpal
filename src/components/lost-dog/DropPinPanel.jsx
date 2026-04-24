@@ -1,4 +1,6 @@
-export default function DropPinPanel({ pin, onPinChange, onNext }) {
+const RADIUS_OPTIONS = [0.5, 1, 2, 5]
+
+export default function DropPinPanel({ pin, onPinChange, alertRadius, onRadiusChange, onNext }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-sm text-green-800">
@@ -25,6 +27,26 @@ export default function DropPinPanel({ pin, onPinChange, onNext }) {
           No pin placed yet
         </div>
       )}
+
+      <div>
+        <label className="text-xs text-gray-500 font-medium block mb-1">Alert Radius</label>
+        <div className="flex gap-2">
+          {RADIUS_OPTIONS.map((r) => (
+            <button
+              key={r}
+              onClick={() => onRadiusChange(r)}
+              className={`flex-1 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
+                alertRadius === r
+                  ? 'bg-green-600 text-white border-green-600'
+                  : 'bg-white text-gray-600 border-gray-200 hover:border-green-400'
+              }`}
+            >
+              {r} mi
+            </button>
+          ))}
+        </div>
+        <p className="text-xs text-green-700 mt-1">{alertRadius} miles selected</p>
+      </div>
 
       <button
         onClick={onNext}

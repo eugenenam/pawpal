@@ -1,7 +1,5 @@
 import { useRef, useState } from 'react'
 
-const RADIUS_OPTIONS = [0.5, 1, 2, 5]
-
 const BREEDS = [
   'Australian Shepherd', 'Basenji', 'Basset Hound', 'Beagle', 'Bichon Frise',
   'Border Collie', 'Boston Terrier', 'Boxer', 'Bulldog', 'Cavalier King Charles Spaniel',
@@ -36,7 +34,7 @@ function resolveInitialColor(dogColor) {
   return match ?? 'Tri-Color'
 }
 
-export default function VerifyInfoPanel({ dog, alertRadius, onRadiusChange, onFormChange, onNext, onBack }) {
+export default function VerifyInfoPanel({ dog, onFormChange, onNext, onBack }) {
   const [dogName, setDogName] = useState(dog?.name ?? '')
 
   // Breed state: primary selection and optional secondary for "Mixed"
@@ -222,27 +220,6 @@ export default function VerifyInfoPanel({ dog, alertRadius, onRadiusChange, onFo
             </select>
           </div>
         )}
-
-        {/* Alert Radius */}
-        <div>
-          <label className="text-xs text-gray-500 font-medium block mb-1">Alert Radius</label>
-          <div className="flex gap-2">
-            {RADIUS_OPTIONS.map((r) => (
-              <button
-                key={r}
-                onClick={() => onRadiusChange(r)}
-                className={`flex-1 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
-                  alertRadius === r
-                    ? 'bg-green-600 text-white border-green-600'
-                    : 'bg-white text-gray-600 border-gray-200 hover:border-green-400'
-                }`}
-              >
-                {r} mi
-              </button>
-            ))}
-          </div>
-          <p className="text-xs text-green-700 mt-1">{alertRadius} miles selected</p>
-        </div>
 
         {/* Other details */}
         <div>

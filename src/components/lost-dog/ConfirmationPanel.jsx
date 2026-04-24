@@ -1,4 +1,4 @@
-export default function ConfirmationPanel({ alert, onResolve }) {
+export default function ConfirmationPanel({ alert, onResolve, onDismiss }) {
   const count = alert?.notified_count ?? 47
   const shelters = alert?.shelters_notified ?? 3
   const radius = alert?.alertRadius ?? 2
@@ -87,6 +87,15 @@ export default function ConfirmationPanel({ alert, onResolve }) {
       >
         Mark as Found ✓
       </button>
+
+      {onDismiss && (
+        <button
+          onClick={onDismiss}
+          className="w-full text-center text-xs text-gray-400 hover:text-gray-600 py-2"
+        >
+          Dismiss alert panel
+        </button>
+      )}
     </div>
   )
 }
