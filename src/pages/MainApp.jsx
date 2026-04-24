@@ -45,6 +45,17 @@ export default function MainApp() {
           onRadiusChange={handleRadiusChange}
           onShowRings={() => setShowRings(true)}
         />
+        {activePanel !== 'lostDog' && (
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+            <button
+              onClick={handleLostDogClick}
+              className="bg-red-500 hover:bg-red-600 text-white font-bold px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-2.5 text-sm transition-all active:scale-95"
+            >
+              <span className="text-lg">🐾</span>
+              Report Lost Dog
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

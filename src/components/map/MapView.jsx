@@ -48,7 +48,37 @@ export default function MapView({ pin, onPinChange, alertRadius, isPinMode, show
     // Remove the old marker before placing a new one
     if (markerRef.current) markerRef.current.remove()
 
-    markerRef.current = new mapboxgl.Marker({ color: '#16A34A' })
+    const el = document.createElement('div')
+    el.innerHTML = `
+      <div style="
+        width: 32px;
+        height: 42px;
+        animation: pinDrop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform-origin: bottom center;
+      ">
+        <svg viewBox="0 0 32 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 0C9.373 0 4 5.373 4 12c0 9 12 30 12 30S28 21 28 12C28 5.373 22.627 0 16 0z" fill="#DC2626"/>
+          <circle cx="16" cy="12" r="5" fill="white"/>
+        </svg>
+      </div>
+    `
+    el.style.cssText = 'cursor: pointer; width: 32px; height: 42px;'
+
+    if (!document.getElementById('pin-drop-style')) {
+      const style = document.createElement('style')
+      style.id = 'pin-drop-style'
+      style.textContent = `
+        @keyframes pinDrop {
+          0% { transform: translateY(-60px) scaleY(1.2); opacity: 0; }
+          60% { transform: translateY(4px) scaleY(0.9); opacity: 1; }
+          80% { transform: translateY(-4px) scaleY(1.05); }
+          100% { transform: translateY(0) scaleY(1); opacity: 1; }
+        }
+      `
+      document.head.appendChild(style)
+    }
+
+    markerRef.current = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
       .setLngLat([pin.lng, pin.lat])
       .addTo(map)
 
