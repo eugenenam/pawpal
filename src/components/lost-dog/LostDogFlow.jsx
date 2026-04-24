@@ -15,7 +15,10 @@ export default function LostDogFlow({
   const [formData, setFormData] = useState({})
   const [savedAlert, setSavedAlert] = useState(null)
 
-  function handleClose() {
+  async function handleClose() {
+    if (savedAlert?.id) {
+      await resolveAlert(savedAlert.id, isDemoMode)
+    }
     setStep(1)
     setFormData({})
     setSavedAlert(null)
