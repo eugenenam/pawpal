@@ -15,14 +15,18 @@ export default function LostDogFlow({
   const [formData, setFormData] = useState({})
   const [savedAlert, setSavedAlert] = useState(null)
 
-  async function handleClose() {
-    if (savedAlert?.id) {
-      await resolveAlert(savedAlert.id, isDemoMode)
-    }
+  function handleClose() {
     setStep(1)
     setFormData({})
     setSavedAlert(null)
     onClose()
+  }
+
+  async function handleResolve() {
+    if (savedAlert?.id) {
+      await resolveAlert(savedAlert.id, isDemoMode)
+    }
+    handleClose()
   }
 
   async function handleSend() {
@@ -88,7 +92,7 @@ export default function LostDogFlow({
         {step === 4 && (
           <ConfirmationPanel
             alert={savedAlert}
-            onResolve={handleClose}
+            onResolve={handleResolve}
           />
         )}
       </div>
