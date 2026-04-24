@@ -32,9 +32,48 @@ export default function ConfirmationPanel({ alert, onResolve }) {
           </div>
         </div>
 
+        {/* Shelter list header */}
         <div className="flex items-center gap-2 text-sm text-green-700">
           <span>📧</span>
-          <span><strong>{shelters} shelters</strong> contacted</span>
+          <span><strong>{shelters} shelters notified</strong></span>
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-green-200 my-2" />
+
+        {/* Individual shelter rows */}
+        <div className="flex flex-col gap-2">
+          {[
+            {
+              name: 'Brooklyn Paws Rescue',
+              address: '147 Bedford Ave, Brooklyn, NY 11211',
+              phone: '(718) 555-0192',
+              tel: '+17185550192',
+            },
+            {
+              name: 'Prospect Heights Animal Care',
+              address: '89 Vanderbilt Ave, Brooklyn, NY 11205',
+              phone: '(718) 555-0347',
+              tel: '+17185550347',
+            },
+            {
+              name: 'Bay Ridge Pet Haven',
+              address: '412 86th St, Brooklyn, NY 11209',
+              phone: '(718) 555-0581',
+              tel: '+17185550581',
+            },
+          ].map((shelter) => (
+            <div key={shelter.name}>
+              <p className="text-xs font-semibold text-green-800">{shelter.name}</p>
+              <p className="text-xs text-green-600">{shelter.address}</p>
+              <a
+                href={`tel:${shelter.tel}`}
+                className="text-xs text-green-600 underline"
+              >
+                {shelter.phone}
+              </a>
+            </div>
+          ))}
         </div>
       </div>
 
