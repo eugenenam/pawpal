@@ -11,9 +11,16 @@ export default function ReviewPanel({ dog, profile, mapPin, alertRadius, formDat
       <div className="bg-red-50 border border-red-200 rounded-lg p-4">
         <p className="text-sm font-bold text-red-800 mb-3">🚨 Lost Dog!</p>
 
-        {dog?.photo_url ? (
-          <img src={dog.photo_url} alt={name} className="w-20 h-20 rounded-full object-cover mx-auto mb-3" />
+        {formData.photoPreview && formData.photoPreview !== 'demo' ? (
+          // User uploaded a real photo — show it
+          <img src={formData.photoPreview} alt={name} className="w-20 h-20 rounded-full object-cover mx-auto mb-3" />
+        ) : formData.photoPreview === 'demo' || dog?.photo_url ? (
+          // Demo placeholder or a photo_url from the dog profile
+          <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3 text-3xl">
+            🐕
+          </div>
         ) : (
+          // No photo at all
           <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3 text-3xl">
             🐕
           </div>

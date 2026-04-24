@@ -44,4 +44,29 @@ describe('ReviewPanel', () => {
     await user.click(screen.getByRole('button', { name: /back/i }))
     expect(onBack).toHaveBeenCalled()
   })
+
+  it('shows real image when formData.photoPreview is a URL', () => {
+    const props = {
+      ...mockProps,
+      formData: { ...mockProps.formData, photoPreview: 'blob:http://localhost/fake-url' },
+    }
+    render(<ReviewPanel {...props} />)
+    const img = screen.getByRole('img', { name: /daisy/i })
+    expect(img).toHaveAttribute('src', 'blob:http://localhost/fake-url')
+  })
+
+  it('shows emoji placeholder when formData.photoPreview is demo', () => {
+    const props = {
+      ...mockProps,
+      formData: { ...mockProps.formData, photoPreview: 'demo' },
+    }
+    render(<ReviewPanel {...props} />)
+    // No <img> element should be present for the dog photo
+    expect(screen.queryByRole('img', { name: /daisy/i })).not.toBeInTheDocument()
+  })
+
+  it('shows emoji placeholder when no photoPreview and no photo_url', () => {
+    render(<ReviewPanel {...mockProps} />)
+    expect(screen.queryByRole('img', { name: /daisy/i })).not.toBeInTheDocument()
+  })
 })
