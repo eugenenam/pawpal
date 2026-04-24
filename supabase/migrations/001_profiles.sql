@@ -15,6 +15,10 @@ create policy "Users can update own profile"
   on public.profiles for update
   using (auth.uid() = id);
 
+-- No INSERT policy is needed here. The handle_new_user trigger below runs
+-- as SECURITY DEFINER and inserts the profile row automatically on sign-up.
+-- A user-level insert policy would be redundant and could allow duplicate rows.
+
 -- Auto-create profile row when a new user signs up
 create or replace function public.handle_new_user()
 returns trigger as $$

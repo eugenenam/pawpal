@@ -1,5 +1,17 @@
 .superpowers/
 node_modules/
 dist/
+
+# Environment files — never commit secrets
 .env
 .env.local
+.env.*.local
+.env.production
+.env.development
+
+# macOS
+.DS_Store
+
+# Build / coverage
+coverage/
+.vite/

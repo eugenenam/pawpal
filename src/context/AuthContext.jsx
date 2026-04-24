@@ -3,6 +3,8 @@ import { supabase } from '../lib/supabase'
 
 const AuthContext = createContext(null)
 
+// Hardcoded demo profile and dog — not a real user, no Supabase rows involved.
+// Phone number is fictional; shown in the UI to illustrate the profile feature.
 const DEMO_PROFILE = { id: 'demo', full_name: 'Anxious Alice', phone: '(917) 123-4567' }
 const DEMO_DOG = {
   id: 'demo-dog',

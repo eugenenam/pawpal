@@ -25,3 +25,9 @@ create policy "Users can insert own dogs"
 create policy "Users can update own dogs"
   on public.dogs for update
   using (auth.uid() = owner_id);
+
+-- Owners can delete their own dog profiles.
+-- Cascading deletes on lost_dog_alerts (dog_id FK) ensure no orphaned alerts remain.
+create policy "Users can delete own dogs"
+  on public.dogs for delete
+  using (auth.uid() = owner_id);

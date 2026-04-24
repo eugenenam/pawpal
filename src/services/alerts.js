@@ -5,6 +5,7 @@ function randomBetween(min, max) {
 }
 
 export async function createAlert({ isDemoMode, dogId, ownerId, lat, lng, address, radiusMiles, otherDetails }) {
+  // Simulated for demo purposes — no real geo-query or notification system is wired up.
   const notified_count = randomBetween(40, 60)
   const shelters_notified = 3
 
@@ -41,6 +42,8 @@ export async function resolveAlert(alertId, isDemoMode) {
     return { id: alertId }
   }
 
+  // RLS policy enforces that only the alert owner can update this row.
+  // No additional ownership check is needed here.
   const { data, error } = await supabase
     .from('lost_dog_alerts')
     .update({ status: 'resolved', resolved_at: new Date().toISOString() })
