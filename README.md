@@ -12,7 +12,6 @@ Years later, I rebuilt it in React to put the original concept into working code
 
 ---
 
-<!-- TODO: Add screenshot before publishing -->
 ![PawPal app screenshot](docs/screenshot.png)
 
 ---
